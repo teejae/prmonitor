@@ -54,6 +54,10 @@ export const Popup = observer((props: PopupProps) => {
     props.core.toggleNewCommitsNotificationSetting();
   };
 
+  const onToggleOnlyDirectRequests = () => {
+    props.core.toggleOnlyDirectRequestsSetting();
+  };
+
   if (props.core.overallStatus !== "loaded") {
     return <Loader />;
   }
@@ -169,7 +173,13 @@ export const Popup = observer((props: PopupProps) => {
                   ? !props.core.muteConfiguration.ignoreNewCommits
                   : null
               }
+              onlyDirectRequestsToggled={
+                state.currentFilter === Filter.INCOMING
+                  ? !!props.core.muteConfiguration.onlyDirectRequests
+                  : null
+              }
               onToggleNewCommitsNotification={onToggleNewCommitsNotification}
+              onToggleOnlyDirectRequests={onToggleOnlyDirectRequests}
               onOpenAll={onOpenAll}
               onOpen={onOpen}
               onMute={onMute}

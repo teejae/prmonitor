@@ -155,6 +155,14 @@ export class Core {
     this.updateBadge();
   }
 
+  async toggleOnlyDirectRequestsSetting() {
+    await this.saveMuteConfiguration({
+      ...this.muteConfiguration,
+      onlyDirectRequests: !this.muteConfiguration.onlyDirectRequests,
+    });
+    this.updateBadge();
+  }
+
   @computed
   get filteredPullRequests(): FilteredPullRequests | null {
     const lastCheck = this.loadedState;

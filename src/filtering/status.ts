@@ -44,6 +44,8 @@ function incomingPullRequestState(
     newReviewRequested: !hasReviewed,
     authorResponded: hasReviewed && hasNewCommentByAuthor,
     newCommit: hasReviewed && hasNewCommit,
+    directlyAdded: (pr.requestedReviewers || []).includes(currentUserLogin),
+    teams: (pr.requestedTeams || []),
   };
 }
 
@@ -144,6 +146,10 @@ export interface IncomingState {
    * previously submitted by the user.
    */
   newCommit: boolean;
+
+  directlyAdded: boolean;
+
+  teams: string[];
 }
 
 /**
@@ -194,12 +200,20 @@ export interface OutgoingState {
 
 export function isReviewRequired(
   state: PullRequestState,
-  ignoreNewCommits: boolean
+  ignoreNewCommits: boolean,
+  onlyDirectRequests: boolean,
 ) {
-  return (
+  const v = (
     state.kind === "incoming" &&
+    (!onlyDirectRequests || state.directlyAdded) &&
     (state.newReviewRequested ||
       state.authorResponded ||
       (!ignoreNewCommits && state.newCommit))
   );
+
+  if (state.kind == 'incoming') {
+    console.log('isReviewRequired', {state, onlyDirectRequests, v})
+  }
+
+  return v;
 }

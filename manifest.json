@@ -1,6 +1,6 @@
 {
   "manifest_version": 2,
-  "name": "PR Monitor",
+  "name": "Test PR Monitor",
   "version": "0.0.0",
   "description": "Get notified when you receive a pull request on GitHub.",
   "permissions": ["alarms", "notifications", "storage"],

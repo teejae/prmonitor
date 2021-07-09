@@ -28,6 +28,10 @@ const NewCommitsCheckbox = styled.input`
   margin-right: 8px;
 `;
 
+const OnlyDirectRequestsCheckbox = styled.input`
+  margin-right: 8px;
+`;
+
 const OpenAllParagraph = styled(Paragraph)`
   text-align: center;
   color: #777;
@@ -38,7 +42,9 @@ export interface PullRequestListProps {
   emptyMessage: string;
   mutingConfiguration: "allow-muting" | "allow-unmuting" | "none";
   newCommitsNotificationToggled: boolean | null;
+  onlyDirectRequestsToggled: boolean | null;
   onToggleNewCommitsNotification?(): void;
+  onToggleOnlyDirectRequests?(): void;
   onOpenAll(): void;
   onOpen(pullRequestUrl: string): void;
   onMute(pullRequest: PullRequest, muteType: MuteType): void;
@@ -55,6 +61,16 @@ export const PullRequestList = observer((props: PullRequestListProps) => (
           onChange={props.onToggleNewCommitsNotification}
         />
         Notify me of new commits
+      </NewCommitsToggle>
+    )}
+    {props.onlyDirectRequestsToggled !== null && (
+      <NewCommitsToggle>
+        <OnlyDirectRequestsCheckbox
+          type="checkbox"
+          checked={props.onlyDirectRequestsToggled}
+          onChange={props.onToggleOnlyDirectRequests}
+        />
+        Skip teams (FIXME)
       </NewCommitsToggle>
     )}
     {props.pullRequests === null ? (
