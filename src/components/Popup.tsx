@@ -188,6 +188,7 @@ export const Popup = observer((props: PopupProps) => {
                   ? props.core.muteConfiguration.whitelistedTeams || []
                   : []
               }
+              userLogin={props.core.loadedState && props.core.loadedState.userLogin || undefined}
               onToggleNewCommitsNotification={onToggleNewCommitsNotification}
               onToggleOnlyDirectRequests={onToggleOnlyDirectRequests}
               onChangeWhitelistedTeams={onChangeWhitelistedTeams}

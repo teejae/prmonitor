@@ -63,6 +63,7 @@ export interface PullRequestListProps {
   newCommitsNotificationToggled: boolean | null;
   onlyDirectRequestsToggled: boolean | null;
   whitelistedTeams: string[];
+  userLogin?: string;
   onToggleNewCommitsNotification?(): void;
   onToggleOnlyDirectRequests?(): void;
   onChangeWhitelistedTeams?: (text: string)=>void;
@@ -98,7 +99,9 @@ export const PullRequestList = observer((props: PullRequestListProps) => {
             onChange={props.onToggleOnlyDirectRequests}
           />
           <div>
-            Only directly requested and whitelisted teams
+            Only directly requested
+            {props.userLogin && <span>(<b>@{props.userLogin}</b>)</span>}
+            and whitelisted teams
 
             {props.onlyDirectRequestsToggled && props.onChangeWhitelistedTeams && (
               <div>
