@@ -204,19 +204,16 @@ export function isReviewRequired(
   onlyDirectRequests: boolean,
   whitelistedTeams: string[],
 ) {
-  // FIXME
+  const inWhitelistedTeams = (
+    state.kind === "incoming" &&
+    state.teams.some((team) => whitelistedTeams.includes(team)));
   const v = (
     state.kind === "incoming" &&
-    (!onlyDirectRequests || state.directlyAdded || 
-      state.teams.some((team) => whitelistedTeams.includes(team))) &&
+    (!onlyDirectRequests || state.directlyAdded || inWhitelistedTeams) &&
     (state.newReviewRequested ||
       state.authorResponded ||
       (!ignoreNewCommits && state.newCommit))
   );
-
-  if (state.kind == 'incoming') {
-    console.log('isReviewRequired', {state, onlyDirectRequests, v})
-  }
 
   return v;
 }
