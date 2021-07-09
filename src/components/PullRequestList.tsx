@@ -73,7 +73,6 @@ export interface PullRequestListProps {
 }
 
 export const PullRequestList = observer((props: PullRequestListProps) => {
-  console.log('PullRequestList render');
   const defaultWhitelistedTeams = props.whitelistedTeams.join(', ');
   const [whitelistedTeams, setWhitelistedTeams] = useState(defaultWhitelistedTeams)
   const inputRef = useRef<HTMLInputElement>(null);
@@ -83,74 +82,73 @@ export const PullRequestList = observer((props: PullRequestListProps) => {
       return;
     }
 
-    const text = inputRef.current.value;
-    setWhitelistedTeams(text);
+    setWhitelistedTeams(inputRef.current.value);
   }
   const handleApplyWhitelistedTeamsChange = (evt: any) => {
     evt.preventDefault();
     props.onChangeWhitelistedTeams && props.onChangeWhitelistedTeams(whitelistedTeams);
   }
   return (
-  <List>
-    {props.onlyDirectRequestsToggled !== null && (
-      <WhitelistedTeamsToggle>
-        <OnlyDirectRequestsCheckbox
-          type="checkbox"
-          checked={props.onlyDirectRequestsToggled}
-          onChange={props.onToggleOnlyDirectRequests}
-        />
-        <div>
-          Only directly requested and whitelisted teams
-
-          {props.onlyDirectRequestsToggled && props.onChangeWhitelistedTeams && (
-            <div>
-              <WhitelistedTeamsInput
-                ref={inputRef}
-                placeholder="team1, team2"
-                value={whitelistedTeams}
-                onInput={handleWhitelistedTeamsChange}
-                ></WhitelistedTeamsInput>
-              <Button
-                disabled={whitelistedTeams === defaultWhitelistedTeams}
-                onClick={handleApplyWhitelistedTeamsChange}>Apply</Button>
-            </div>
-          )}
-        </div>
-      </WhitelistedTeamsToggle>
-    )}
-    {props.newCommitsNotificationToggled !== null && (
-      <NewCommitsToggle>
-        <NewCommitsCheckbox
-          type="checkbox"
-          checked={props.newCommitsNotificationToggled}
-          onChange={props.onToggleNewCommitsNotification}
-        />
-        Notify me of new commits
-      </NewCommitsToggle>
-    )}
-    {props.pullRequests === null ? (
-      <Loader />
-    ) : props.pullRequests.length === 0 ? (
-      <Paragraph>{props.emptyMessage}</Paragraph>
-    ) : (
-      <>
-        {props.pullRequests.map((pullRequest) => (
-          <PullRequestItem
-            key={pullRequest.nodeId}
-            pullRequest={pullRequest}
-            mutingConfiguration={props.mutingConfiguration}
-            onOpen={props.onOpen}
-            onMute={props.onMute}
-            onUnmute={props.onUnmute}
+    <List>
+      {props.onlyDirectRequestsToggled !== null && (
+        <WhitelistedTeamsToggle>
+          <OnlyDirectRequestsCheckbox
+            type="checkbox"
+            checked={props.onlyDirectRequestsToggled}
+            onChange={props.onToggleOnlyDirectRequests}
           />
-        ))}
-        {props.pullRequests.length > 1 && (
-          <OpenAllParagraph>
-            <Link onClick={props.onOpenAll}>Open them all</Link>
-          </OpenAllParagraph>
-        )}
-      </>
-    )}
-  </List>
-);
-        });
+          <div>
+            Only directly requested and whitelisted teams
+
+            {props.onlyDirectRequestsToggled && props.onChangeWhitelistedTeams && (
+              <div>
+                <WhitelistedTeamsInput
+                  ref={inputRef}
+                  placeholder="team1, team2"
+                  value={whitelistedTeams}
+                  onInput={handleWhitelistedTeamsChange}
+                  ></WhitelistedTeamsInput>
+                <Button
+                  disabled={whitelistedTeams === defaultWhitelistedTeams}
+                  onClick={handleApplyWhitelistedTeamsChange}>Apply</Button>
+              </div>
+            )}
+          </div>
+        </WhitelistedTeamsToggle>
+      )}
+      {props.newCommitsNotificationToggled !== null && (
+        <NewCommitsToggle>
+          <NewCommitsCheckbox
+            type="checkbox"
+            checked={props.newCommitsNotificationToggled}
+            onChange={props.onToggleNewCommitsNotification}
+          />
+          Notify me of new commits
+        </NewCommitsToggle>
+      )}
+      {props.pullRequests === null ? (
+        <Loader />
+      ) : props.pullRequests.length === 0 ? (
+        <Paragraph>{props.emptyMessage}</Paragraph>
+      ) : (
+        <>
+          {props.pullRequests.map((pullRequest) => (
+            <PullRequestItem
+              key={pullRequest.nodeId}
+              pullRequest={pullRequest}
+              mutingConfiguration={props.mutingConfiguration}
+              onOpen={props.onOpen}
+              onMute={props.onMute}
+              onUnmute={props.onUnmute}
+            />
+          ))}
+          {props.pullRequests.length > 1 && (
+            <OpenAllParagraph>
+              <Link onClick={props.onOpenAll}>Open them all</Link>
+            </OpenAllParagraph>
+          )}
+        </>
+      )}
+    </List>
+  );
+});
