@@ -25,20 +25,20 @@ const NewCommitsToggle = styled.label`
   align-items: center;
 `;
 
-const WhitelistedTeamsToggle = styled.label`
-  padding: 8px;
-  margin: 0;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-`;
-
 const NewCommitsCheckbox = styled.input`
   margin-right: 8px;
 `;
 
 const OnlyDirectRequestsCheckbox = styled.input`
   margin-right: 8px;
+`;
+
+const OnlyDirectRequestsToggle = styled.label`
+  padding: 8px;
+  margin: 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 `;
 
 const WhitelistedTeamsInput = styled.input`
@@ -92,7 +92,7 @@ export const PullRequestList = observer((props: PullRequestListProps) => {
   return (
     <List>
       {props.onlyDirectRequestsToggled !== null && (
-        <WhitelistedTeamsToggle>
+        <OnlyDirectRequestsToggle>
           <OnlyDirectRequestsCheckbox
             type="checkbox"
             checked={props.onlyDirectRequestsToggled}
@@ -117,7 +117,7 @@ export const PullRequestList = observer((props: PullRequestListProps) => {
               </div>
             )}
           </div>
-        </WhitelistedTeamsToggle>
+        </OnlyDirectRequestsToggle>
       )}
       {props.newCommitsNotificationToggled !== null && (
         <NewCommitsToggle>
