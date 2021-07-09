@@ -53,12 +53,12 @@ export function filterPullRequests(
   return {
     incoming: enrichedPullRequests.filter(
       (pr) =>
-        isReviewRequired(pr.state, ignoreNewCommits, onlyDirectRequests) &&
+        isReviewRequired(pr.state, ignoreNewCommits, onlyDirectRequests, muteConfiguration.whitelistedTeams|| []) &&
         isMuted(env, pr, muteConfiguration) === MutedResult.VISIBLE
     ),
     muted: enrichedPullRequests.filter(
       (pr) =>
-        isReviewRequired(pr.state, ignoreNewCommits, onlyDirectRequests) &&
+        isReviewRequired(pr.state, ignoreNewCommits, onlyDirectRequests, muteConfiguration.whitelistedTeams|| []) &&
         isMuted(env, pr, muteConfiguration) === MutedResult.MUTED
     ),
     reviewed: enrichedPullRequests.filter(

@@ -202,10 +202,13 @@ export function isReviewRequired(
   state: PullRequestState,
   ignoreNewCommits: boolean,
   onlyDirectRequests: boolean,
+  whitelistedTeams: string[],
 ) {
+  // FIXME
   const v = (
     state.kind === "incoming" &&
-    (!onlyDirectRequests || state.directlyAdded) &&
+    (!onlyDirectRequests || state.directlyAdded || 
+      state.teams.some((team) => whitelistedTeams.includes(team))) &&
     (state.newReviewRequested ||
       state.authorResponded ||
       (!ignoreNewCommits && state.newCommit))

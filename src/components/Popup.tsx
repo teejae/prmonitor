@@ -58,6 +58,11 @@ export const Popup = observer((props: PopupProps) => {
     props.core.toggleOnlyDirectRequestsSetting();
   };
 
+  const onChangeWhitelistedTeams = (teamsText: string) => {
+    console.log('onChangeWhitelistedTeams', teamsText);
+    props.core.toggleOnlyDirectRequestsSetting();
+  };
+
   if (props.core.overallStatus !== "loaded") {
     return <Loader />;
   }
@@ -180,6 +185,7 @@ export const Popup = observer((props: PopupProps) => {
               }
               onToggleNewCommitsNotification={onToggleNewCommitsNotification}
               onToggleOnlyDirectRequests={onToggleOnlyDirectRequests}
+              onChangeWhitelistedTeams={onChangeWhitelistedTeams}
               onOpenAll={onOpenAll}
               onOpen={onOpen}
               onMute={onMute}

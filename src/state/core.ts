@@ -156,9 +156,12 @@ export class Core {
   }
 
   async toggleOnlyDirectRequestsSetting() {
+    const newOnlyDirectRequests = !this.muteConfiguration.onlyDirectRequests;
     await this.saveMuteConfiguration({
       ...this.muteConfiguration,
-      onlyDirectRequests: !this.muteConfiguration.onlyDirectRequests,
+      onlyDirectRequests: newOnlyDirectRequests,
+      // FIXME
+      whitelistedTeams: newOnlyDirectRequests && ['codeowners-test-tea', 'codeowners-test-team'] || [],
     });
     this.updateBadge();
   }

@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 import { observer } from "mobx-react-lite";
-import React from "react";
+import React, { useState } from "react";
 import { EnrichedPullRequest } from "../filtering/enriched-pull-request";
 import { PullRequest } from "../storage/loaded-state";
 import { MuteType } from "../storage/mute-configuration";
@@ -24,12 +24,30 @@ const NewCommitsToggle = styled.label`
   align-items: center;
 `;
 
+const WhitelistedTeamsToggle = styled.label`
+  padding: 8px;
+  margin: 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+`;
+
 const NewCommitsCheckbox = styled.input`
   margin-right: 8px;
 `;
 
 const OnlyDirectRequestsCheckbox = styled.input`
   margin-right: 8px;
+`;
+
+const WhitelistedTeamsInput = styled.input`
+  flex-grow: 1;
+  padding: 4px 8px;
+  margin-right: 8px;
+
+  &:focus {
+    outline-color: #2ee59d;
+  }
 `;
 
 const OpenAllParagraph = styled(Paragraph)`
@@ -45,13 +63,21 @@ export interface PullRequestListProps {
   onlyDirectRequestsToggled: boolean | null;
   onToggleNewCommitsNotification?(): void;
   onToggleOnlyDirectRequests?(): void;
+  onChangeWhitelistedTeams?: (text: string)=>void;
   onOpenAll(): void;
   onOpen(pullRequestUrl: string): void;
   onMute(pullRequest: PullRequest, muteType: MuteType): void;
   onUnmute(pullRequest: PullRequest): void;
 }
 
-export const PullRequestList = observer((props: PullRequestListProps) => (
+export const PullRequestList = observer((props: PullRequestListProps) => {
+  const [whitelistedTeams, setWhitelistedTeams] = useState('')
+  const handleWhitelistedTeamsChange = (evt: any) => {
+    console.log('handleWhitelistedTeamsChange', evt);
+    setWhitelistedTeams(evt.target.value);
+    props.onChangeWhitelistedTeams && props.onChangeWhitelistedTeams(whitelistedTeams);
+  }
+  return (
   <List>
     {props.newCommitsNotificationToggled !== null && (
       <NewCommitsToggle>
@@ -64,14 +90,23 @@ export const PullRequestList = observer((props: PullRequestListProps) => (
       </NewCommitsToggle>
     )}
     {props.onlyDirectRequestsToggled !== null && (
-      <NewCommitsToggle>
+      <div>
+      <WhitelistedTeamsToggle>
         <OnlyDirectRequestsCheckbox
           type="checkbox"
           checked={props.onlyDirectRequestsToggled}
           onChange={props.onToggleOnlyDirectRequests}
         />
-        Skip teams (FIXME)
-      </NewCommitsToggle>
+        Only include whitelisted teams
+      </WhitelistedTeamsToggle>
+      {props.onlyDirectRequestsToggled && props.onChangeWhitelistedTeams && (
+          <WhitelistedTeamsInput
+            type="text"
+            placeholder="team1, team2"
+            value={whitelistedTeams}
+            onBlur={handleWhitelistedTeamsChange}
+            ></WhitelistedTeamsInput>)}
+      </div>
     )}
     {props.pullRequests === null ? (
       <Loader />
@@ -97,4 +132,5 @@ export const PullRequestList = observer((props: PullRequestListProps) => (
       </>
     )}
   </List>
-));
+);
+        });
