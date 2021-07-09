@@ -59,8 +59,8 @@ export const Popup = observer((props: PopupProps) => {
   };
 
   const onChangeWhitelistedTeams = (teamsText: string) => {
-    console.log('onChangeWhitelistedTeams', teamsText);
-    props.core.toggleOnlyDirectRequestsSetting();
+    const teams = teamsText.split(',').map((s)=>s.trim())
+    props.core.onChangeWhitelistedTeamsSetting(teams);
   };
 
   if (props.core.overallStatus !== "loaded") {
@@ -182,6 +182,11 @@ export const Popup = observer((props: PopupProps) => {
                 state.currentFilter === Filter.INCOMING
                   ? !!props.core.muteConfiguration.onlyDirectRequests
                   : null
+              }
+              whitelistedTeams={
+                state.currentFilter === Filter.INCOMING
+                  ? props.core.muteConfiguration.whitelistedTeams || []
+                  : []
               }
               onToggleNewCommitsNotification={onToggleNewCommitsNotification}
               onToggleOnlyDirectRequests={onToggleOnlyDirectRequests}

@@ -160,8 +160,14 @@ export class Core {
     await this.saveMuteConfiguration({
       ...this.muteConfiguration,
       onlyDirectRequests: newOnlyDirectRequests,
-      // FIXME
-      whitelistedTeams: newOnlyDirectRequests && ['codeowners-test-tea', 'codeowners-test-team'] || [],
+    });
+    this.updateBadge();
+  }
+
+  async onChangeWhitelistedTeamsSetting(teams: string[]) {
+    await this.saveMuteConfiguration({
+      ...this.muteConfiguration,
+      whitelistedTeams: teams,
     });
     this.updateBadge();
   }
