@@ -86,38 +86,37 @@ export const PullRequestList = observer((props: PullRequestListProps) => {
     const text = inputRef.current.value;
     setWhitelistedTeams(text);
   }
-  const handleApplyWhitelistedTeamsChange = () => {
-    if (!inputRef.current) {
-      return;
-    }
-
-    const text = inputRef.current.value;
-    props.onChangeWhitelistedTeams && props.onChangeWhitelistedTeams(text);
+  const handleApplyWhitelistedTeamsChange = (evt: any) => {
+    evt.preventDefault();
+    props.onChangeWhitelistedTeams && props.onChangeWhitelistedTeams(whitelistedTeams);
   }
   return (
   <List>
     {props.onlyDirectRequestsToggled !== null && (
-      <div>
       <WhitelistedTeamsToggle>
         <OnlyDirectRequestsCheckbox
           type="checkbox"
           checked={props.onlyDirectRequestsToggled}
           onChange={props.onToggleOnlyDirectRequests}
         />
-        Only directly requested and whitelisted teams:
-      </WhitelistedTeamsToggle>
-      {props.onlyDirectRequestsToggled && props.onChangeWhitelistedTeams && (
         <div>
-          <WhitelistedTeamsInput
-            ref={inputRef}
-            placeholder="team1, team2"
-            value={whitelistedTeams}
-            onInput={handleWhitelistedTeamsChange}
-            ></WhitelistedTeamsInput>
-          <Button disabled={whitelistedTeams === defaultWhitelistedTeams} onClick={handleApplyWhitelistedTeamsChange}>Apply</Button>
+          Only directly requested and whitelisted teams
+
+          {props.onlyDirectRequestsToggled && props.onChangeWhitelistedTeams && (
+            <div>
+              <WhitelistedTeamsInput
+                ref={inputRef}
+                placeholder="team1, team2"
+                value={whitelistedTeams}
+                onInput={handleWhitelistedTeamsChange}
+                ></WhitelistedTeamsInput>
+              <Button
+                disabled={whitelistedTeams === defaultWhitelistedTeams}
+                onClick={handleApplyWhitelistedTeamsChange}>Apply</Button>
+            </div>
+          )}
         </div>
-            )}
-      </div>
+      </WhitelistedTeamsToggle>
     )}
     {props.newCommitsNotificationToggled !== null && (
       <NewCommitsToggle>
