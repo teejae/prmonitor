@@ -147,8 +147,14 @@ export interface IncomingState {
    */
   newCommit: boolean;
 
+  /**
+   * True if a review has been requested for the current user, and not just included indirectly via a team.
+   */
   directlyAdded: boolean;
 
+  /**
+   * List of team names requested.
+   */
   teams: string[];
 }
 
