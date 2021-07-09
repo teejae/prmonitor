@@ -61,12 +61,7 @@ async function updateCommentsAndReviews(
     freshComments,
     freshCommits,
   ] = await Promise.all([
-    githubApi.loadPullRequestDetails(pr).then((details)=>
-      {
-        console.log(pr, details, details.requested_reviewers, details.requested_teams);
-        return details;
-      }
-    ),
+    githubApi.loadPullRequestDetails(pr),
     githubApi.loadReviews(pr).then((reviews) =>
       reviews.map((review) => ({
         authorLogin: review.user ? review.user.login : "",
